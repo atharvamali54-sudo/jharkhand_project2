@@ -18,7 +18,7 @@
             <a href="#home">मुखपृष्ठ</a>
             <a href="#submit-problem">समस्या नोंदवा</a>
             <a href="#dashboard">डॅशबोर्ड</a>
-            <a href="#about">आमच्याबद्दल</a>
+            <a href="#industry-partner">उद्योग भागिदारी</a>
         </nav>
     </header>
 
@@ -70,11 +70,42 @@
     <section id="dashboard" class="form-section">
         <h2>📊 प्राप्त समस्यांचा डॅशबोर्ड (Live Problem Dashboard)</h2>
         <div style="margin-bottom: 15px;">
-            <input type="text" id="searchInput" placeholder="जिल्हा किंवा विभागानुसार शोधा..." onkeyup="filterProblems()" style="padding: 8px; width: 100%; box-sizing: border-box;">
+            <input type="text" id="searchInput" placeholder="जिल्हा किंवा विभागानुसार शोधा..." onkeyup="filterProblems()" style="padding: 12px; width: 100%; box-sizing: border-box;">
         </div>
-        <div id="problemList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #fafafa; border-radius: 4px;">
+        <div id="problemList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #fafafa; border-radius: 10px;">
             <p style="color: #777; text-align: center;">अद्याप कोणतीही समस्या नोंदवली गेलेली नाही.</p>
         </div>
+    </section>
+
+    <!-- Industry Partnership Module Section -->
+    <section id="industry-partner" class="form-section">
+        <h2>🤝 उद्योग आणि CSR भागिदारी (Industry Partnership Hub)</h2>
+        <p style="text-align: center; color: #555; font-size: 14px; margin-bottom: 20px;">
+            स्टार्ट-अप्स, MSMEs आणि CSR संस्था स्थानिक समस्यांच्या प्रोटोटाइप आणि फंडिंगसाठी इथे जोडल्या जाऊ शकतात.
+        </p>
+        <form id="industryForm">
+            <label for="compName">कंपनी / संस्थेचे नाव:</label>
+            <input type="text" id="compName" required placeholder="उदा. Tata Steel / Start-up Name">
+
+            <label for="expertDomain">विशेष प्राविण्य (Expertise Domain):</label>
+            <select id="expertDomain" required>
+                <option value="">विभाग निवडा</option>
+                <option value="Water">पाणी आणि स्वच्छता (Water & Sanitation)</option>
+                <option value="Agriculture">कृषी तंत्रज्ञान (AgriTech)</option>
+                <option value="Education">स्मार्ट एज्युकेशन (Smart Education)</option>
+                <option value="Healthcare">आरोग्य आणि बायोमेडिकल (Healthcare)</option>
+            </select>
+
+            <label for="supportType">सहकार्याचा प्रकार (Type of Support):</label>
+            <select id="supportType" required>
+                <option value="Funding">आर्थिक सहाय्य / अनुदान (Funding/CSR Grant)</option>
+                <option value="Mentorship">तांत्रिक मार्गदर्शन (Technical Mentorship)</option>
+                <option value="Prototyping">प्रोटोटाइप निर्मिती (Prototyping & Testing)</option>
+            </select>
+
+            <button type="submit" class="submit-btn">भागिदारीसाठी नोंदणी करा</button>
+        </form>
+        <p id="industryMsg" style="color: green; margin-top: 10px; display: none; text-align: center;"></p>
     </section>
 
     <!-- Footer -->

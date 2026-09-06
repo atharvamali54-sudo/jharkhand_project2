@@ -59,7 +59,7 @@ function displayProblems(probArray) {
     let htmlContent = "";
     probArray.forEach((prob, index) => {
         htmlContent += `
-            <div style="border-bottom: 1px solid #ddd; padding: 10px; margin-bottom: 5px; background: white;">
+            <div style="border-bottom: 1px solid #ddd; padding: 10px; margin-bottom: 5px; background: white; border-radius: 6px;">
                 <strong>क्र. ${index + 1} | विभाग: ${prob.domain}</strong><br>
                 <span>👤 नागरिक: ${prob.name} | जिल्हा: ${prob.district}</span><br>
                 <span>📎 फाईल: ${prob.photo}</span><br>
@@ -78,3 +78,17 @@ function filterProblems() {
     );
     displayProblems(filtered);
 }
+
+// उद्योग भागिदारी फॉर्म सबमिट करण्यासाठी इव्हेंट लिसनर
+document.getElementById('industryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const compName = document.getElementById('compName').value;
+    const supportType = document.getElementById('supportType').value;
+
+    const msg = document.getElementById('industryMsg');
+    msg.style.display = 'block';
+    msg.textContent = `धन्यवाद ${compName}! तुमची '${supportType}' या प्रकारची नोंदणी यशस्वी झाली आहे. संबंधित विद्यापीठ प्रकल्पांसाठी लवकरच संपर्क केला जाईल.`;
+
+    document.getElementById('industryForm').reset();
+});
