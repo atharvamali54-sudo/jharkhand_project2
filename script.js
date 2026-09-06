@@ -18,18 +18,18 @@ function showNotification(message) {
 function handleLogin() {
     const role = document.getElementById('loginRole').value;
     const username = document.getElementById('loginUsername').value.trim();
-    if (!username) { alert('नाव प्रविष्ट करा!'); return; }
+    if (!username) { alert('Please enter your username!'); return; }
 
     currentUser = { username, role };
     localStorage.setItem('jharkhand_adv_user', JSON.stringify(currentUser));
     showDashboard(currentUser);
-    showNotification(`यशोशी रित्या लॉगिन झाले: ${username}`);
+    showNotification(`Successfully logged in as: ${username}`);
 }
 
 function showDashboard(user) {
     document.getElementById('authSection').classList.add('hidden');
     document.getElementById('mainHeader').classList.remove('hidden');
-    document.getElementById('userRoleDisplay').innerText = `रोल: ${user.role.toUpperCase()}`;
+    document.getElementById('userRoleDisplay').innerText = `Role: ${user.role.toUpperCase()}`;
     document.getElementById('welcomeUser').innerText = user.username;
 
     document.querySelectorAll('.form-section').forEach(el => el.classList.add('hidden'));
@@ -51,7 +51,7 @@ function logout() {
     location.reload();
 }
 
-// नागरिक समस्या सबमिट करणे (फोटोसहित)
+// Citizen problem submission with photo support
 document.getElementById('problemForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const domain = document.getElementById('domain').value;
@@ -59,9 +59,8 @@ document.getElementById('problemForm').addEventListener('submit', function(e) {
     const description = document.getElementById('description').value;
     const imageInput = document.getElementById('problemImage');
 
-    let assignedUni = domain === "Agriculture" ? "बिरसा कृषी विद्यापीठ" : "राँची युनिव्हर्सिटी / बीआईटी सिंदरी";
+    let assignedUni = domain === "Agriculture" ? "Birsa Agricultural University" : "Ranchi University / BIT Sindri";
 
-    // फोटो रीड करून सेव्ह करणे
     if (imageInput.files && imageInput.files[0]) {
         const reader = new FileReader();
         reader.onload = function(event) {
@@ -79,36 +78,36 @@ function saveProblemWithImage(domain, district, description, assignedUni, imageD
         citizenName: currentUser.username,
         domain, district, description,
         university: assignedUni,
-        image: imageData, // इथे फोटोचा डेटा स्टोअर होईल
-        status: "नवीन (New)"
+        image: imageData,
+        status: "New"
     };
 
     problems.push(newProb);
     localStorage.setItem('jharkhand_adv_problems', JSON.stringify(problems));
     renderCitizenData(currentUser.username);
-    showNotification('समस्या फोटोसह यशस्वीपणे नोंदवली गेली!');
+    showNotification('Problem submitted successfully with photo!');
     document.getElementById('problemForm').reset();
 }
 
 function renderCitizenData(username) {
     const list = document.getElementById('myCitizenProblems');
     const myProbs = problems.filter(p => p.citizenName === username);
-    if (myProbs.length === 0) { list.innerHTML = `<p style="font-size:13px; color:#777;">कोणतीही समस्या नाही.</p>`; return; }
+    if (myProbs.length === 0) { list.innerHTML = `<p style="font-size:13px; color:#777;">No issues reported yet.</p>`; return; }
     
     let html = "";
     myProbs.forEach((p, idx) => {
         let imgHtml = p.image ? `<br><img src="${p.image}" style="max-width:100px; max-height:80px; margin-top:5px; border-radius:4px; border:1px solid #ccc;">` : "";
         html += `<div style="background:rgba(0,0,0,0.02); padding:8px; margin-bottom:6px; border-radius:4px; font-size:13px;">
-            <b>${idx+1}. विभाग: ${p.domain} (${p.district})</b><br>
-            वर्णन: ${p.description}<br>
-            स्थिती: <span style="color:#2e7d32; font-weight:bold;">${p.status}</span>
+            <b>${idx+1}. Domain: ${p.domain} (${p.district})</b><br>
+            Description: ${p.description}<br>
+            Status: <span style="color:#2e7d32; font-weight:bold;">${p.status}</span>
             ${imgHtml}
         </div>`;
     });
     list.innerHTML = html;
 }
 
-// विद्यापीठ उपाय सबमिट
+// University solution submission
 document.getElementById('uniForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const solTitle = document.getElementById('solTitle').value;
@@ -117,20 +116,20 @@ document.getElementById('uniForm').addEventListener('submit', function(e) {
     uniSolutions.push({ uniName: currentUser.username, solTitle, solDesc });
     localStorage.setItem('jharkhand_adv_sols', JSON.stringify(uniSolutions));
     renderUniversityData();
-    showNotification('उपाय यशस्वीरित्या प्रकाशित झाला!');
+    showNotification('Solution published successfully!');
     document.getElementById('uniForm').reset();
 });
 
 function renderUniversityData() {
     const assignedList = document.getElementById('uniAssignedList');
     if (problems.length === 0) {
-        assignedList.innerHTML = "कोणतीही समस्या नाही.";
+        assignedList.innerHTML = "No assigned issues found.";
     } else {
         let html = "";
         problems.forEach(p => {
             let imgHtml = p.image ? `<br><img src="${p.image}" style="max-width:80px; max-height:60px; margin-top:4px; border-radius:3px;">` : "";
             html += `<div style="font-size:12px; margin-bottom:6px; background:rgba(0,0,0,0.02); padding:6px; border-radius:4px;">
-                📍 <b>${p.district}</b> (${p.domain}) [नागरिक: ${p.citizenName}]: ${p.description} ${imgHtml}
+                📍 <b>${p.district}</b> (${p.domain}) [Citizen: ${p.citizenName}]: ${p.description} ${imgHtml}
             </div>`;
         });
         assignedList.innerHTML = html;
@@ -138,14 +137,14 @@ function renderUniversityData() {
     
     const pubList = document.getElementById('uniPublishedList');
     const mySols = uniSolutions.filter(s => s.uniName === currentUser.username);
-    pubList.innerHTML = "<h4 style='font-size:14px; margin:5px 0;'>प्रकाशित उपाय:</h4>" + (mySols.length === 0 ? "<p style='font-size:12px; color:#777;'>काहीही नाही</p>" : mySols.map(s => `<div style="font-size:12px; background:rgba(21,101,192,0.1); padding:4px; border-radius:3px; margin-bottom:3px;"><b>${s.solTitle}</b>: ${s.solDesc}</div>`).join(''));
+    pubList.innerHTML = "<h4 style='font-size:14px; margin:5px 0;'>Published Solutions:</h4>" + (mySols.length === 0 ? "<p style='font-size:12px; color:#777;'>None</p>" : mySols.map(s => `<div style="font-size:12px; background:rgba(21,101,192,0.1); padding:4px; border-radius:3px; margin-bottom:3px;"><b>${s.solTitle}</b>: ${s.solDesc}</div>`).join(''));
 }
 
-// शासन एडमिन डेटा
+// Admin Panel data management
 function renderAdminData() {
     const adminList = document.getElementById('adminManagementList');
     let resolved = 0;
-    if (problems.length === 0) { adminList.innerHTML = "डेटा उपलब्ध नाही."; return; }
+    if (problems.length === 0) { adminList.innerHTML = "No data available."; return; }
 
     let html = "";
     problems.forEach(p => {
@@ -157,10 +156,10 @@ function renderAdminData() {
                 ${imgHtml}
             </div>
             <select onchange="updateStatus(${p.id}, this.value)" style="width:130px; padding:3px; margin:0;">
-                <option value="">स्टेटस बदला</option>
-                <option value="मान्यता प्राप्त">Approved</option>
-                <option value="संशोधनाधीन">Under Research</option>
-                <option value="पूर्ण झाले (Resolved)">Resolved</option>
+                <option value="">Change Status</option>
+                <option value="Approved">Approved</option>
+                <option value="Under Research">Under Research</option>
+                <option value="Resolved">Resolved</option>
             </select>
         </div>`;
     });
@@ -175,11 +174,11 @@ function updateStatus(id, newStatus) {
         p.status = newStatus;
         localStorage.setItem('jharkhand_adv_problems', JSON.stringify(problems));
         renderAdminData();
-        showNotification('समस्येचे स्टेटस अपडेट केले!');
+        showNotification('Problem status updated!');
     }
 }
 
-// डेटा एक्सपोर्ट फिचर (CSV Format)
+// CSV Export Features
 function exportUniversityData() {
     let csv = "University,Solution Title,Description\n";
     uniSolutions.forEach(s => { csv += `"${s.uniName}","${s.solTitle}","${s.solDesc}"\n`; });
@@ -198,16 +197,16 @@ function downloadCSV(csv, filename) {
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
-    showNotification('डेटा यशस्वीरित्या डाऊनलोड झाला!');
+    showNotification('Data downloaded successfully!');
 }
 
-// डार्क मोड टॉगल
+// Dark Mode Toggle
 function toggleDarkMode() {
     const body = document.body;
     body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
 }
 
-// AI चॅटबॉट लॉजिक
+// AI Chatbot logic
 function toggleChatbot() {
     document.getElementById('chatbot-content').classList.toggle('hidden');
 }
@@ -218,14 +217,14 @@ function sendChatMessage() {
     if(!text) return;
 
     const body = document.getElementById('chatbot-body');
-    body.innerHTML += `<p style="margin:5px 0;"><b>तुम्ही:</b> ${text}</p>`;
+    body.innerHTML += `<p style="margin:5px 0;"><b>You:</b> ${text}</p>`;
 
-    let reply = "मला समजले नाही. कृपया 'समस्या कशी टाकावी' किंवा 'स्टेटस' असे विचारू शकता.";
+    let reply = "I didn't quite understand. You can ask things like 'how to submit problem' or 'status'.";
     const lower = text.toLowerCase();
-    if(lower.includes('समस्या') || lower.includes('photo') || lower.includes('फोटो')) {
-        reply = "नागरिक डॅशबोर्डवर समस्या भरताना तुम्ही तुमच्या मोबाईल किंवा कॉम्प्युटरमधून फोटो अपलोड करू शकता.";
-    } else if(lower.includes('status') || lower.includes('स्थिती')) {
-        reply = "तुम्ही तुमच्या डॅशबोर्डवर नोंदवलेल्या समस्यांचे लाईव्ह स्टेटस पाहू शकता.";
+    if(lower.includes('problem') || lower.includes('submit') || lower.includes('photo')) {
+        reply = "Go to the Citizen Dashboard, fill in your details, select a photo if needed, and click 'Submit Problem'.";
+    } else if(lower.includes('status') || lower.includes('track')) {
+        reply = "You can track the live status of your issues directly on your dashboard.";
     }
 
     setTimeout(() => {
