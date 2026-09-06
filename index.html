@@ -55,7 +55,6 @@
                 <option value="Sanitation">स्वच्छता (Sanitation)</option>
             </select>
 
-            <!-- फोटो अपलोड करण्यासाठी नवीन फील्ड -->
             <label for="problemPhoto">समस्येचा फोटो अपलोड करा:</label>
             <input type="file" id="problemPhoto" accept="image/*" required>
 
@@ -65,6 +64,17 @@
             <button type="submit" class="submit-btn">समस्या सबमिट करा</button>
         </form>
         <p id="successMessage" style="color: green; margin-top: 10px; display: none;"></p>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="form-section">
+        <h2>📊 प्राप्त समस्यांचा डॅशबोर्ड (Live Problem Dashboard)</h2>
+        <div style="margin-bottom: 15px;">
+            <input type="text" id="searchInput" placeholder="जिल्हा किंवा विभागानुसार शोधा..." onkeyup="filterProblems()" style="padding: 8px; width: 100%; box-sizing: border-box;">
+        </div>
+        <div id="problemList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #fafafa; border-radius: 4px;">
+            <p style="color: #777; text-align: center;">अद्याप कोणतीही समस्या नोंदवली गेलेली नाही.</p>
+        </div>
     </section>
 
     <!-- Footer -->
