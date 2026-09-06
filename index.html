@@ -9,7 +9,6 @@
         .auth-container { max-width: 400px; margin: 40px auto; background: var(--card-bg, white); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .hidden { display: none !important; }
         
-        /* डार्क मोडसाठी व्हेरिएबल्स */
         :root { --bg-color: #f4f4f9; --text-color: #333; --card-bg: white; --header-bg: #1b5e20; }
         [data-theme="dark"] { --bg-color: #121212; --text-color: #e0e0e0; --card-bg: #1e1e1e; --header-bg: #0b2e13; }
         
@@ -18,7 +17,6 @@
         .form-section { background: var(--card-bg); max-width: 800px; margin: 20px auto; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 12px; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; background: var(--card-bg); color: var(--text-color); }
         
-        /* चॅटबॉट स्टाईल */
         #chatbot-container { position: fixed; bottom: 20px; right: 20px; width: 300px; background: var(--card-bg); border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; }
         #chatbot-header { background: #1b5e20; color: white; padding: 10px; border-top-left-radius: 8px; border-top-right-radius: 8px; cursor: pointer; font-weight: bold; }
         #chatbot-body { height: 200px; overflow-y: auto; padding: 10px; font-size: 13px; }
@@ -61,7 +59,7 @@
 
     <!-- 1. CITIZEN DASHBOARD -->
     <section id="citizen-dashboard" class="form-section hidden" style="border-top: 5px solid #2e7d32;">
-        <h2>👤 नागरिक डॅशबोर्ड</h2>
+        <h2>👤 नागरिक डॅशबोर्ड (समस्या नोंदणी)</h2>
         <form id="problemForm">
             <label>विभाग:</label>
             <select id="domain" required>
@@ -80,11 +78,14 @@
             <label>समस्येचे वर्णन:</label>
             <textarea id="description" rows="3" required placeholder="सविस्तर माहिती लिहा..."></textarea>
 
+            <label>📷 समस्येचा फोटो अपलोड करा (Optional):</label>
+            <input type="file" id="problemImage" accept="image/*">
+
             <button type="submit" style="background: #2e7d32; width:100%; padding:10px; color:white; border:none; border-radius:5px; font-weight:bold;">समस्या सबमिट करा</button>
         </form>
 
         <h3 style="margin-top: 20px; font-size: 16px;">तुमच्या नोंदवलेल्या समस्या</h3>
-        <div id="myCitizenProblems" style="max-height: 180px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px;"></div>
+        <div id="myCitizenProblems" style="max-height: 220px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px;"></div>
     </section>
 
     <!-- 2. UNIVERSITY DASHBOARD -->
@@ -94,8 +95,8 @@
             <button onclick="exportUniversityData()" style="background: #1565c0; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">📥 डेटा एक्सपोर्ट (CSV)</button>
         </div>
         
-        <h3 style="color: #1565c0; font-size: 15px;">🏛️ वर्ग केलेल्या समस्या</h3>
-        <div id="uniAssignedList" style="max-height: 150px; overflow-y: auto; border: 1px solid #b3e5fc; padding: 10px; border-radius: 6px; margin-bottom: 15px;"></div>
+        <h3 style="color: #1565c0; font-size: 15px;">🏛️ वर्ग केलेल्या समस्या व फोटो</h3>
+        <div id="uniAssignedList" style="max-height: 180px; overflow-y: auto; border: 1px solid #b3e5fc; padding: 10px; border-radius: 6px; margin-bottom: 15px;"></div>
 
         <h3 style="color: #1565c0; font-size: 15px;">💡 प्रोटोटाइप उपाय सबमिट करा</h3>
         <form id="uniForm">
@@ -135,7 +136,7 @@
         <div id="chatbot-header" onclick="toggleChatbot()">🤖 मदतनीस AI चॅटबॉट</div>
         <div id="chatbot-content" class="hidden">
             <div id="chatbot-body">
-                <p><b>AI:</b> नमस्कार! मला पोर्टलबद्दल काहीही विचारू शकता (उदा. समस्या कशी टाकावी?).</p>
+                <p><b>AI:</b> नमस्कार! मला पोर्टलबद्दल काहीही विचारू शकता.</p>
             </div>
             <div style="display: flex; border-top: 1px solid #ccc;">
                 <input type="text" id="chatInput" placeholder="इथे लिहा..." style="border:none; padding:8px; margin:0; flex:1;">
