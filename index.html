@@ -19,6 +19,7 @@
             <a href="#submit-problem">समस्या नोंदवा</a>
             <a href="#dashboard">डॅशबोर्ड</a>
             <a href="#industry-partner">उद्योग भागिदारी</a>
+            <a href="#tracker">प्रगती ट्रॅकर</a>
         </nav>
     </header>
 
@@ -106,6 +107,28 @@
             <button type="submit" class="submit-btn">भागिदारीसाठी नोंदणी करा</button>
         </form>
         <p id="industryMsg" style="color: green; margin-top: 10px; display: none; text-align: center;"></p>
+    </section>
+
+    <!-- Project Progress Tracker Section -->
+    <section id="tracker" class="form-section">
+        <h2>📈 प्रकल्प प्रगती ट्रॅकर (Project Progress Tracker)</h2>
+        <p style="text-align: center; color: #555; font-size: 14px; margin-bottom: 20px;">
+            नोंदणीकृत समस्यांवर चाललेल्या संशोधनाची आणि उपायांची सद्यस्थिती लाईव्ह पाहा.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
+            <div style="background: rgba(27, 94, 32, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #1b5e20;">
+                <h3 style="margin: 0; color: #1b5e20; font-size: 24px;" id="countReceived">0</h3>
+                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;">एकूण समस्या</p>
+            </div>
+            <div style="background: rgba(255, 152, 0, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #ff9800;">
+                <h3 style="margin: 0; color: #e65100; font-size: 24px;" id="countAssigned">0</h3>
+                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;">विद्यापीठाकडे वर्ग</p>
+            </div>
+            <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px; border: 1px solid #2196f3;">
+                <h3 style="margin: 0; color: #0d47a1; font-size: 24px;" id="countPartners">0</h3>
+                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;">उद्योग भागीदार</p>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->

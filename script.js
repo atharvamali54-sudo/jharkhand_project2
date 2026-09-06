@@ -1,10 +1,10 @@
-// सर्व समस्या साठवण्यासाठी ॲरे
+// सर्व समस्या आणि उद्योग भागीदार मोजण्यासाठी व्हेरिएबल्स
 let problems = [];
+let industryPartnersCount = 0;
 
 document.getElementById('problemForm').addEventListener('submit', function(e) {
     e.preventDefault(); // फॉर्म रीलोड रोखणे
 
-    // युजरने इनपुट केलेली माहिती घेणे
     const name = document.getElementById('name').value;
     const district = document.getElementById('district').value;
     const domain = document.getElementById('domain').value;
@@ -25,7 +25,6 @@ document.getElementById('problemForm').addEventListener('submit', function(e) {
         assignedUniversity = "बीआईटी सिंदरी, धनबाद (BIT Sindri)";
     }
 
-    // नवीन समस्येचा ऑब्जेक्ट तयार करणे
     const newProblem = {
         name: name,
         district: district,
@@ -34,16 +33,14 @@ document.getElementById('problemForm').addEventListener('submit', function(e) {
         university: assignedUniversity
     };
 
-    // लिस्टमार्फत समस्येचा डेटा ऍड करणे
     problems.push(newProblem);
     displayProblems(problems);
+    updateTrackerStats(); // ट्रॅकर आकडे अपडेट करणे
 
-    // यशस्वी संदेश दाखवणे
     const successMsg = document.getElementById('successMessage');
     successMsg.style.display = 'block';
     successMsg.textContent = `धन्यवाद ${name}! समस्या यशस्वीपणे नोंदवली गेली आहे व ती AI द्वारे '${assignedUniversity}' कडे वर्ग केली आहे.`;
 
-    // फॉर्म रिसेट करणे
     document.getElementById('problemForm').reset();
 });
 
@@ -86,9 +83,19 @@ document.getElementById('industryForm').addEventListener('submit', function(e) {
     const compName = document.getElementById('compName').value;
     const supportType = document.getElementById('supportType').value;
 
+    industryPartnersCount++; // भागीदार संख्या वाढवणे
+    updateTrackerStats();   // ट्रॅकर आकडे अपडेट करणे
+
     const msg = document.getElementById('industryMsg');
     msg.style.display = 'block';
-    msg.textContent = `धन्यवाद ${compName}! तुमची '${supportType}' या प्रकारची नोंदणी यशस्वी झाली आहे. संबंधित विद्यापीठ प्रकल्पांसाठी लवकरच संपर्क केला जाईल.`;
+    msg.textContent = `धन्यवाद ${compName}! तुमची '${supportType}' या प्रकारची नोंदणी यशस्वी झाली आहे.`;
 
     document.getElementById('industryForm').reset();
 });
+
+// ट्रॅकरचे आकडे अपडेट करणारे मुख्य फंक्शन
+function updateTrackerStats() {
+    document.getElementById('countReceived').innerText = problems.length;
+    document.getElementById('countAssigned').innerText = problems.length;
+    document.getElementById('countPartners').innerText = industryPartnersCount;
+}
