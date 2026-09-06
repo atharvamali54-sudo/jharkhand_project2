@@ -12,30 +12,33 @@
     <header>
         <div class="logo">
             <h1 data-en="🚀 Jharkhand Social Innovation Portal" data-mr="🚀 झारखंड समाज नाविन्यता पोर्टल">🚀 झारखंड समाज नाविन्यता पोर्टल</h1>
-            <p data-en="Solving local challenges via University & Industry Collaboration" data-mr="विद्यापीठ आणि उद्योग भागिदारीद्वारे स्थानिक समस्यांचे निराकरण">विद्यापीठ आणि उद्योग भागिदारीद्वारे स्थानिक समस्यांचे निराकरण</p>
+            <p data-en="Multi-Role Collaboration Portal (Citizen, University & Govt)" data-mr="बहु-भूमिका सहकार्य पोर्टल (नागरिक, विद्यापीठ व शासन)">बहु-भूमिका सहकार्य पोर्टल (नागरिक, विद्यापीठ व शासन)</p>
         </div>
         <nav>
             <a href="#home" data-en="Home" data-mr="मुखपृष्ठ">मुखपृष्ठ</a>
-            <a href="#submit-problem" data-en="Report Problem" data-mr="समस्या नोंदवा">समस्या नोंदवा</a>
-            <a href="#dashboard" data-en="Dashboard" data-mr="डॅशबोर्ड">डॅशबोर्ड</a>
-            <a href="#university-solution" data-en="University Solutions" data-mr="विद्यापीठ उपाय">विद्यापीठ उपाय</a>
+            <a href="#citizen-section" data-en="Citizen Portal" data-mr="नागरिक डॅशबोर्ड">नागरिक डॅशबोर्ड</a>
+            <a href="#university-section" data-en="University Portal" data-mr="विद्यापीठ डॅशबोर्ड">विद्यापीठ डॅशबोर्ड</a>
+            <a href="#admin-section" data-en="Govt Admin" data-mr="शासन डॅशबोर्ड">शासन डॅशबोर्ड</a>
             <a href="#industry-partner" data-en="Industry Hub" data-mr="उद्योग भागिदारी">उद्योग भागिदारी</a>
-            <a href="#admin-panel" data-en="Admin Portal" data-mr="प्रशासन पॅनेल">प्रशासन पॅनेल</a>
             <!-- Language Toggle Button -->
-            <button onclick="toggleLanguage()" id="langBtn" style="background: #ff9800; border: none; padding: 6px 12px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-left: 15px;">English</button>
+            <button onclick="toggleLanguage()" id="langBtn" style="background: #ff9800; border: none; padding: 6px 12px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-left: 10px;">English</button>
         </nav>
     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
-        <h2 data-en="Report your local issues, get innovative solutions!" data-mr="तुमच्या परिसरातील समस्या सांगा, नाविन्यपूर्ण उपाय मिळवा!">तुमच्या परिसरातील समस्या सांगा, नाविन्यपूर्ण उपाय मिळवा!</h2>
-        <p data-en="Citizens, farmers, and local bodies can now directly connect with Higher Education Institutions (HEIs) and Industries." data-mr="शेतकरी, नागरिक आणि स्थानिक संस्था आता थेट उच्च शिक्षण संस्था (HEIs) आणि उद्योगांसोबत जोडल्या जाऊ शकतात.">शेतकरी, नागरिक आणि स्थानिक संस्था आता थेट उच्च शिक्षण संस्था (HEIs) आणि उद्योगांसोबत जोडल्या जाऊ शकतात.</p>
-        <a href="#submit-problem" class="btn" data-en="Submit Problem" data-mr="समस्या सबमिट करा">समस्या सबमिट करा</a>
+        <h2 data-en="Bridging Citizens, Universities & Government for Innovation" data-mr="नागरिक, विद्यापीठे आणि शासन यांना नाविन्यपूर्ण उपायांसाठी एकत्र आणत आहे">नागरिक, विद्यापीठे आणि शासन यांना नाविन्यपूर्ण उपायांसाठी एकत्र आणत आहे</h2>
+        <p data-en="Select your role below or report a local challenge directly." data-mr="खालीलपैकी तुमची भूमिका निवडा किंवा थेट स्थानिक समस्या नोंदवा.">खालीलपैकी तुमची भूमिका निवडा किंवा थेट स्थानिक समस्या नोंदवा.</p>
+        <div style="margin-top: 20px;">
+            <a href="#citizen-section" class="btn" style="background: #2e7d32; margin-right: 10px;">👤 नागरिक पोर्टल</a>
+            <a href="#university-section" class="btn" style="background: #1565c0; margin-right: 10px;">🎓 विद्यापीठ पोर्टल</a>
+            <a href="#admin-section" class="btn" style="background: #d84315;">🛡️ शासन डॅशबोर्ड</a>
+        </div>
     </section>
 
-    <!-- Problem Submission Form Section -->
-    <section id="submit-problem" class="form-section">
-        <h2 data-en="Submit Problem (Citizen Engagement)" data-mr="समस्या सबमिट करा (Citizen Engagement Module)">समस्या सबमिट करा (Citizen Engagement Module)</h2>
+    <!-- 1. CITIZEN PORTAL -->
+    <section id="citizen-section" class="form-section" style="border-top: 5px solid #2e7d32;">
+        <h2 data-en="👤 Citizen Engagement & Problem Reporting" data-mr="👤 नागरिक डॅशबोर्ड: समस्या नोंदणी व ट्रॅकिंग">👤 नागरिक डॅशबोर्ड: समस्या नोंदणी व ट्रॅकिंग</h2>
         <form id="problemForm">
             <label data-en="Your Name:" data-mr="तुमचे नाव:">तुमचे नाव:</label>
             <input type="text" id="name" required placeholder="पूर्ण नाव प्रविष्ट करा">
@@ -56,98 +59,78 @@
                 <option value="Agriculture">कृषी (Agriculture)</option>
                 <option value="Healthcare">आरोग्य (Healthcare)</option>
                 <option value="Water">पाणी व्यवस्थापन (Water Management)</option>
-                <option value="Sanitation">स्वच्छता (Sanitation)</option>
             </select>
-
-            <label data-en="Upload Photo:" data-mr="समस्येचा फोटो अपलोड करा:">समस्येचा फोटो अपलोड करा:</label>
-            <input type="file" id="problemPhoto" accept="image/*" required>
 
             <label data-en="Description:" data-mr="समस्येचे वर्णन:">समस्येचे वर्णन:</label>
-            <textarea id="description" rows="4" required placeholder="तुमच्या समस्येबद्दल सविस्तर माहिती लिहा..."></textarea>
+            <textarea id="description" rows="3" required placeholder="तुमच्या समस्यեबद्दल सविस्तर माहिती लिहा..."></textarea>
 
-            <button type="submit" class="submit-btn" data-en="Submit Problem" data-mr="समस्या सबमिट करा">समस्या सबमिट करा</button>
+            <button type="submit" class="submit-btn" style="background: #2e7d32;" data-en="Submit Problem" data-mr="समस्या सबमिट करा">समस्या सबमिट करा</button>
         </form>
         <p id="successMessage" style="color: green; margin-top: 10px; display: none;"></p>
+
+        <h3 style="margin-top: 25px; color: #2e7d32;" data-en="Your Submitted Problems Status" data-mr="तुम्ही नोंदवलेल्या समस्यांचे स्टेटस">तुम्ही नोंदवलेल्या समस्यांचे स्टेटस</h3>
+        <div id="citizenProblemList" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #f9f9f9; border-radius: 6px;"></div>
     </section>
 
-    <!-- Dashboard Section -->
-    <section id="dashboard" class="form-section">
-        <h2 data-en="📊 Live Problem Dashboard" data-mr="📊 प्राप्त समस्यांचा डॅशबोर्ड (Live Problem Dashboard)">📊 प्राप्त समस्यांचा डॅशबोर्ड (Live Problem Dashboard)</h2>
-        <div style="margin-bottom: 15px;">
-            <input type="text" id="searchInput" placeholder="जिल्हा किंवा विभागानुसार शोधा..." onkeyup="filterProblems()" style="padding: 12px; width: 100%; box-sizing: border-box;">
-        </div>
-        <div id="problemList" style="max-height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #fafafa; border-radius: 10px;">
-            <p style="color: #777; text-align: center;">अद्याप कोणतीही समस्या नोंदवली गेलेली नाही.</p>
-        </div>
-    </section>
+    <!-- 2. UNIVERSITY PORTAL -->
+    <section id="university-section" class="form-section" style="border-top: 5px solid #1565c0;">
+        <h2 data-en="🎓 University & HEI Research Portal" data-mr="🎓 विद्यापीठ डॅशबोर्ड: संशोधन व प्रोटोटाइप शोकेस">🎓 विद्यापीठ डॅशबोर्ड: संशोधन व प्रोटोटाइप शोकेस</h2>
+        <p style="font-size: 13px; color: #555;" data-en="Assigned regional problems and solution publishing hub for universities." data-mr="विद्यापीठांकडे वर्ग केलेल्या समस्या आणि उपाय प्रकाशित करण्याचे ठिकाण.">विद्यापीठांकडे वर्ग केलेल्या समस्या आणि उपाय प्रकाशित करण्याचे ठिकाण.</p>
+        
+        <h3 style="color: #1565c0; font-size: 16px;">🏛️ विद्यापीठाकडे वर्ग केलेल्या समस्या (Assigned Tasks)</h3>
+        <div id="uniAssignedList" style="max-height: 180px; overflow-y: auto; border: 1px solid #b3e5fc; padding: 10px; background: #e3f2fd; border-radius: 6px; margin-bottom: 20px;"></div>
 
-    <!-- University Solutions Showcase Section -->
-    <section id="university-solution" class="form-section">
-        <h2 data-en="🎓 University Research & Prototypes" data-mr="🎓 विद्यापीठ संशोधन आणि प्रोटोटाइप शोकेस">🎓 विद्यापीठ संशोधन आणि प्रोटोटाइप शोकेस</h2>
-        <p style="text-align: center; color: #555; font-size: 14px; margin-bottom: 20px;" data-en="HEIs and student teams can showcase innovations developed for regional issues." data-mr="विद्यापीठे आणि विद्यार्थ्यांनी विकसित केलेल्या उपायांची माहिती येथे पहा.">विद्यापीठे आणि विद्यार्थ्यांनी विकसित केलेल्या उपायांची माहिती येथे पहा.</p>
+        <h3 style="color: #1565c0; font-size: 16px;">💡 प्रोटोटाइप / उपाय सबमिट करा</h3>
         <form id="uniForm">
-            <label data-en="University / College Name:" data-mr="विद्यापीठ / महाविद्यालयाचे नाव:">विद्यापीठ / महाविद्यालयाचे नाव:</label>
-            <input type="text" id="uniName" required placeholder="उदा. BIT Sindri">
+            <label data-en="University Name:" data-mr="विद्यापीठ / महाविद्यालयाचे नाव:">विद्यापीठ / महाविद्यालयाचे नाव:</label>
+            <input type="text" id="uniName" required placeholder="उदा. BIT Sindri / Ranchi Univ">
 
-            <label data-en="Solution / Prototype Title:" data-mr="संशोधन / प्रोटोटाइपचे नाव:">संशोधन / प्रोटोटाइपचे नाव:</label>
-            <input type="text" id="solTitle" required placeholder="उदा. Low-cost Water Purifier">
+            <label data-en="Solution Title:" data-mr="उपायाचे नाव:">उपायाचे नाव:</label>
+            <input type="text" id="solTitle" required placeholder="उदा. Smart Irrigation Sensor">
 
-            <label data-en="Details of Solution:" data-mr="उपायाचे थोडक्यात वर्णन:">उपायाचे थोडक्यात वर्णन:</label>
-            <textarea id="solDesc" rows="3" required placeholder="प्रोटोटाइप कसे काम करते ते लिहा..."></textarea>
+            <label data-en="Solution Details:" data-mr="उपायाचे वर्णन:">उपायाचे वर्णन:</label>
+            <textarea id="solDesc" rows="2" required placeholder="प्रोटोटाइप कसे काम करते ते लिहा..."></textarea>
 
-            <button type="submit" class="submit-btn" data-en="Publish Solution" data-mr="उपाय प्रकाशित करा">उपाय प्रकाशित करा</button>
+            <button type="submit" class="submit-btn" style="background: #1565c0;" data-en="Publish Solution" data-mr="उपाय प्रकाशित करा">उपाय प्रकाशित करा</button>
         </form>
-        <div id="uniSolutionsList" style="margin-top: 20px;"></div>
+        <div id="uniPublishedList" style="margin-top: 15px;"></div>
     </section>
 
-    <!-- Industry Partnership Module Section -->
+    <!-- 3. GOVT / ADMIN PORTAL -->
+    <section id="admin-section" class="form-section" style="border-top: 5px solid #d84315;">
+        <h2 data-en="🛡️ Govt Nodal Officer & Admin Dashboard" data-mr="🛡️ शासन आणि नोडल अधिकारी डॅशबोर्ड">🛡️ शासन आणि नोडल अधिकारी डॅशबोर्ड</h2>
+        <p style="font-size: 13px; color: #555;" data-en="Monitor total state issues, approve solutions and track department metrics." data-mr="राज्यभरातील समस्यांवर लक्ष ठेवा आणि स्टेटस अपडेट करा.">राज्यभरातील समस्यांवर लक्ष ठेवा आणि स्टेटस अपडेट करा.</p>
+        
+        <!-- Progress Metrics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px; text-align: center;">
+            <div style="background: #fbe9e7; padding: 10px; border-radius: 6px;">
+                <h4 style="margin:0; color:#d84315; font-size: 20px;" id="adminTotalProblems">0</h4>
+                <p style="margin:3px 0 0; font-size: 12px;" data-en="Total Issues" data-mr="एकूण समस्या">एकूण समस्या</p>
+            </div>
+            <div style="background: #e8f5e9; padding: 10px; border-radius: 6px;">
+                <h4 style="margin:0; color:#2e7d32; font-size: 20px;" id="adminResolvedCount">0</h4>
+                <p style="margin:3px 0 0; font-size: 12px;" data-en="Resolved" data-mr="परिसमाप्त / सोडवलेल्या">सोडवलेल्या</p>
+            </div>
+        </div>
+
+        <h3 style="color: #d84315; font-size: 16px;">⚙️ समस्यांचे स्टेटस नियंत्रण (Status Management)</h3>
+        <div id="adminManagementList" style="max-height: 220px; overflow-y: auto;"></div>
+    </section>
+
+    <!-- Industry Partnership Hub -->
     <section id="industry-partner" class="form-section">
-        <h2 data-en="🤝 Industry Partnership Hub" data-mr="🤝 उद्योग आणि CSR भागिदारी (Industry Partnership Hub)">🤝 उद्योग आणि CSR भागिदारी (Industry Partnership Hub)</h2>
+        <h2 data-en="🤝 Industry & CSR Partner Hub" data-mr="🤝 उद्योग आणि CSR भागिदारी डॅशबोर्ड">🤝 उद्योग आणि CSR भागिदारी डॅशबोर्ड</h2>
         <form id="industryForm">
             <label data-en="Company Name:" data-mr="कंपनी / संस्थेचे नाव:">कंपनी / संस्थेचे नाव:</label>
-            <input type="text" id="compName" required placeholder="Tata Steel / Start-up">
-
-            <label data-en="Support Type:" data-mr="सहकार्याचा प्रकार:">सहकार्याचा प्रकार:</label>
-            <select id="supportType" required>
-                <option value="Funding">आर्थिक सहाय्य / अनुदान (Funding/CSR Grant)</option>
-                <option value="Mentorship">तांत्रिक मार्गदर्शन (Technical Mentorship)</option>
-                <option value="Prototyping">प्रोटोटाइप निर्मिती (Prototyping)</option>
-            </select>
-
-            <button type="submit" class="submit-btn" data-en="Register Partnership" data-mr="भागिदारीसाठी नोंदणी करा">भागिदारीसाठी नोंदणी करा</button>
+            <input type="text" id="compName" required placeholder="Tata Steel / Heavy Engineering Corp">
+            <button type="submit" class="submit-btn" style="background: #6a1b9a;" data-en="Register as Partner" data-mr="भागीदार म्हणून नोंदणी करा">भागीदार म्हणून नोंदणी करा</button>
         </form>
         <p id="industryMsg" style="color: green; margin-top: 10px; display: none; text-align: center;"></p>
     </section>
 
-    <!-- Admin Status Panel Section -->
-    <section id="admin-panel" class="form-section" style="border: 2px dashed #ff9800;">
-        <h2 data-en="🛡️ Admin Approval & Status Panel" data-mr="🛡️ प्रशासन स्टेटस आणि अप्रूव्हल पॅनेल">🛡️ प्रशासन स्टेटस आणि अप्रूव्हल पॅनेल</h2>
-        <p style="font-size: 13px; color: #666; text-align: center;" data-en="Nodal officers can update problem statuses here." data-mr="नोडल अधिकारी समस्येचे स्टेटस बदलू शकतात.">नोडल अधिकारी समस्येचे स्टेटस बदलू शकतात.</p>
-        <div id="adminList" style="max-height: 250px; overflow-y: auto;"></div>
-    </section>
-
-    <!-- Project Progress Tracker Section -->
-    <section id="tracker" class="form-section">
-        <h2 data-en="📈 Project Progress Tracker" data-mr="📈 प्रकल्प प्रगती ट्रॅकर">📈 प्रकल्प प्रगती ट्रॅकर</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; text-align: center;">
-            <div style="background: rgba(27, 94, 32, 0.1); padding: 15px; border-radius: 10px;">
-                <h3 style="margin: 0; color: #1b5e20; font-size: 24px;" id="countReceived">0</h3>
-                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;" data-en="Total Problems" data-mr="एकूण समस्या">एकूण समस्या</p>
-            </div>
-            <div style="background: rgba(255, 152, 0, 0.1); padding: 15px; border-radius: 10px;">
-                <h3 style="margin: 0; color: #e65100; font-size: 24px;" id="countAssigned">0</h3>
-                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;" data-en="Assigned to Uni" data-mr="विद्यापीठाकडे वर्ग">विद्यापीठाकडे वर्ग</p>
-            </div>
-            <div style="background: rgba(33, 150, 243, 0.1); padding: 15px; border-radius: 10px;">
-                <h3 style="margin: 0; color: #0d47a1; font-size: 24px;" id="countPartners">0</h3>
-                <p style="margin: 5px 0 0; font-size: 13px; font-weight: 600;" data-en="Industry Partners" data-mr="उद्योग भागीदार">उद्योग भागीदार</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
-        <p data-en="&copy; 2026 Department of Higher & Technical Education, Govt of Jharkhand." data-mr="&copy; 2026 उच्च व तांत्रिक शिक्षण विभाग, झारखंड सरकार. सर्व हक्क सुरक्षित.">&copy; 2026 उच्च व तांत्रिक शिक्षण विभाग, झारखंड सरकार. सर्व हक्क सुरक्षित.</p>
+        <p data-en="&copy; 2026 Govt of Jharkhand - Multi-Role Innovation Framework." data-mr="&copy; 2026 झारखंड सरकार - बहु-भूमिका नाविन्यता फ्रेमवर्क. सर्व हक्क सुरक्षित.">&copy; 2026 झारखंड सरकार - बहु-भूमिका नाविन्यता फ्रेमवर्क. सर्व हक्क सुरक्षित.</p>
     </footer>
 
     <script src="script.js"></script>
