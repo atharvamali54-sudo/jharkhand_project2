@@ -3,130 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>झारखंड समाज नाविन्यता पोर्टल (Jharkhand Innovation Portal)</title>
+    <title>झारखंड समाज नाविन्यता पोर्टल (Advanced Version)</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* साधी डिझाईन आणि लॉगिन हायडिंगसाठी CSS */
-        .auth-container { max-width: 400px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .auth-container { max-width: 400px; margin: 40px auto; background: var(--card-bg, white); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .hidden { display: none !important; }
-        .role-badge { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        
+        /* डार्क मोडसाठी व्हेरिएबल्स */
+        :root { --bg-color: #f4f4f9; --text-color: #333; --card-bg: white; --header-bg: #1b5e20; }
+        [data-theme="dark"] { --bg-color: #121212; --text-color: #e0e0e0; --card-bg: #1e1e1e; --header-bg: #0b2e13; }
+        
+        body { background-color: var(--bg-color); color: var(--text-color); transition: background 0.3s, color 0.3s; font-family: sans-serif; margin: 0; padding: 0; }
+        header { background: var(--header-bg); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .form-section { background: var(--card-bg); max-width: 800px; margin: 20px auto; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 12px; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; background: var(--card-bg); color: var(--text-color); }
+        
+        /* चॅटबॉट स्टाईल */
+        #chatbot-container { position: fixed; bottom: 20px; right: 20px; width: 300px; background: var(--card-bg); border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; }
+        #chatbot-header { background: #1b5e20; color: white; padding: 10px; border-top-left-radius: 8px; border-top-right-radius: 8px; cursor: pointer; font-weight: bold; }
+        #chatbot-body { height: 200px; overflow-y: auto; padding: 10px; font-size: 13px; }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <!-- Header / Navigation -->
     <header id="mainHeader" class="hidden">
-        <div class="logo">
-            <h1>🚀 झारखंड समाज नाविन्यता पोर्टल</h1>
-            <p id="userRoleDisplay">Secure Role-based Portal</p>
+        <div>
+            <h1 style="margin:0; font-size: 20px;">🚀 झारखंड समाज नाविन्यता पोर्टल</h1>
+            <p id="userRoleDisplay" style="margin:2px 0 0; font-size: 12px; opacity: 0.8;"></p>
         </div>
-        <nav>
-            <span id="welcomeUser" style="color: white; font-weight: bold; margin-right: 15px;"></span>
-            <button onclick="logout()" style="background: #e53935; border: none; padding: 6px 12px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer;">लॉग आउट (Logout)</button>
+        <nav style="display: flex; align-items: center; gap: 10px;">
+            <button onclick="toggleDarkMode()" style="background: #333; color: white; border: none; padding: 6px 10px; border-radius: 15px; cursor: pointer; font-size: 12px;">🌙 डार्क मोड</button>
+            <span id="welcomeUser" style="font-weight: bold; font-size: 14px;"></span>
+            <button onclick="logout()" style="background: #e53935; border: none; padding: 6px 12px; border-radius: 15px; color: white; font-weight: bold; cursor: pointer; font-size: 12px;">लॉग आउट</button>
         </nav>
     </header>
 
-    <!-- LOGIN / SIGNUP SECTION (पहिला पेज) -->
+    <!-- Notification Banner -->
+    <div id="notificationBanner" style="display:none; background: #ff9800; color: white; text-align: center; padding: 8px; font-weight: bold; font-size: 14px;"></div>
+
+    <!-- LOGIN / SIGNUP SECTION -->
     <section id="authSection" class="auth-container">
-        <h2 id="authTitle" style="text-align: center; color: #1b5e20; margin-bottom: 20px;">🔐 पोर्टल लॉगिन (Login)</h2>
+        <h2 style="text-align: center; color: #1b5e20; margin-bottom: 20px;">🔐 सुरक्षित लॉगिन</h2>
         
-        <div style="margin-bottom: 15px;">
-            <label>भूमिका निवडा (Select Role):</label>
-            <select id="loginRole" onchange="toggleAuthMode()" style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
-                <option value="citizen">नागरिक (Citizen)</option>
-                <option value="university">विद्यापीठ (University)</option>
-                <option value="admin">शासन / नोडल अधिकारी (Govt Admin)</option>
-            </select>
-        </div>
+        <label>भूमिका निवडा:</label>
+        <select id="loginRole">
+            <option value="citizen">नागरिक (Citizen)</option>
+            <option value="university">विद्यापीठ (University)</option>
+            <option value="admin">शासन / नोडल अधिकारी (Govt Admin)</option>
+        </select>
 
-        <div style="margin-bottom: 15px;">
-            <label>वापरकर्ता नाव / ईमेल (Username):</label>
-            <input type="text" id="loginUsername" placeholder="तुमचे नाव प्रविष्ट करा" style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc;">
-        </div>
+        <label>वापरकर्ता नाव (Username):</label>
+        <input type="text" id="loginUsername" placeholder="तुमचे नाव टाका">
 
-        <div style="margin-bottom: 20px;">
-            <label>पासवर्ड (Password):</label>
-            <input type="password" id="loginPassword" placeholder="******" style="width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border-radius: 5px; border: 1px solid #ccc;">
-        </div>
-
-        <button onclick="handleLogin()" class="submit-btn" style="width: 100%; background: #1b5e20; color: white; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">लॉगिन करा (Login)</button>
-        
-        <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
-            * सुरक्षा धोरणांतर्गत, प्रत्येक युजरला फक्त त्याच्याच खात्याची माहिती दिसेल.
-        </p>
+        <button onclick="handleLogin()" style="width: 100%; background: #1b5e20; color: white; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px;">लॉगिन करा</button>
     </section>
 
-    <!-- 1. CITIZEN DASHBOARD (फक्त नागरिकांसाठी) -->
+    <!-- 1. CITIZEN DASHBOARD -->
     <section id="citizen-dashboard" class="form-section hidden" style="border-top: 5px solid #2e7d32;">
-        <h2>👤 नागरिक डॅशबोर्ड (Citizen Portal)</h2>
+        <h2>👤 नागरिक डॅशबोर्ड</h2>
         <form id="problemForm">
-            <label>समस्येचा विभाग (Domain):</label>
-            <select id="domain" required style="width:100%; padding:8px; margin-bottom:10px;">
+            <label>विभाग:</label>
+            <select id="domain" required>
                 <option value="Education">शिक्षण (Education)</option>
                 <option value="Agriculture">कृषी (Agriculture)</option>
                 <option value="Water">पाणी व्यवस्थापन (Water Management)</option>
             </select>
 
             <label>जिल्हा:</label>
-            <select id="district" required style="width:100%; padding:8px; margin-bottom:10px;">
+            <select id="district" required>
                 <option value="Ranchi">रांची (Ranchi)</option>
                 <option value="Jamshedpur">जमशेदपूर (Jamshedpur)</option>
                 <option value="Dhanbad">धनबाद (Dhanbad)</option>
             </select>
 
             <label>समस्येचे वर्णन:</label>
-            <textarea id="description" rows="3" required placeholder="सविस्तर माहिती लिहा..." style="width:100%; padding:8px; margin-bottom:10px; box-sizing: border-box;"></textarea>
+            <textarea id="description" rows="3" required placeholder="सविस्तर माहिती लिहा..."></textarea>
 
-            <button type="submit" class="submit-btn" style="background: #2e7d32; width:100%; padding:10px; color:white; border:none; border-radius:5px;">समस्या सबमिट करा</button>
+            <button type="submit" style="background: #2e7d32; width:100%; padding:10px; color:white; border:none; border-radius:5px; font-weight:bold;">समस्या सबमिट करा</button>
         </form>
 
-        <h3 style="margin-top: 25px; color: #2e7d32;">तूमच्या वैयक्तिक नोंदवलेल्या समस्या</h3>
-        <div id="myCitizenProblems" style="max-height: 200px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #f9f9f9; border-radius: 6px;"></div>
+        <h3 style="margin-top: 20px; font-size: 16px;">तुमच्या नोंदवलेल्या समस्या</h3>
+        <div id="myCitizenProblems" style="max-height: 180px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 6px;"></div>
     </section>
 
-    <!-- 2. UNIVERSITY DASHBOARD (फक्त विद्यापीठांसाठी) -->
+    <!-- 2. UNIVERSITY DASHBOARD -->
     <section id="university-dashboard" class="form-section hidden" style="border-top: 5px solid #1565c0;">
-        <h2>🎓 विद्यापीठ संशोधन डॅशबोर्ड (University Portal)</h2>
-        <p style="font-size: 13px; color: #555;">तुमच्या विद्यापीठाकडे वर्ग केलेल्या समस्या आणि उपाय सबमिट करण्याचे ठिकाण.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>🎓 विद्यापीठ संशोधन डॅशबोर्ड</h2>
+            <button onclick="exportUniversityData()" style="background: #1565c0; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">📥 डेटा एक्सपोर्ट (CSV)</button>
+        </div>
         
-        <h3 style="color: #1565c0; font-size: 16px;">🏛️ तुमच्या विद्यापीठाकडील समस्या</h3>
-        <div id="uniAssignedList" style="max-height: 180px; overflow-y: auto; border: 1px solid #b3e5fc; padding: 10px; background: #e3f2fd; border-radius: 6px; margin-bottom: 20px;"></div>
+        <h3 style="color: #1565c0; font-size: 15px;">🏛️ वर्ग केलेल्या समस्या</h3>
+        <div id="uniAssignedList" style="max-height: 150px; overflow-y: auto; border: 1px solid #b3e5fc; padding: 10px; border-radius: 6px; margin-bottom: 15px;"></div>
 
-        <h3 style="color: #1565c0; font-size: 16px;">💡 प्रोटोटाइप उपाय सबमिट करा</h3>
+        <h3 style="color: #1565c0; font-size: 15px;">💡 प्रोटोटाइप उपाय सबमिट करा</h3>
         <form id="uniForm">
-            <label>उपायाचे नाव (Solution Title):</label>
-            <input type="text" id="solTitle" required placeholder="उदा. Smart Water Filter" style="width:100%; padding:8px; margin-bottom:10px;">
-            <label>उपायाचे वर्णन:</label>
-            <textarea id="solDesc" rows="2" required placeholder="वर्णन लिहा..." style="width:100%; padding:8px; margin-bottom:10px; box-sizing: border-box;"></textarea>
-            <button type="submit" class="submit-btn" style="background: #1565c0; width:100%; padding:10px; color:white; border:none; border-radius:5px;">उपाय प्रकाशित करा</button>
+            <label>उपायाचे नाव:</label>
+            <input type="text" id="solTitle" required placeholder="उदा. Smart Water Filter">
+            <label>वर्णन:</label>
+            <textarea id="solDesc" rows="2" required placeholder="वर्णन लिहा..."></textarea>
+            <button type="submit" style="background: #1565c0; width:100%; padding:10px; color:white; border:none; border-radius:5px; font-weight:bold;">उपाय प्रकाशित करा</button>
         </form>
-        <div id="uniPublishedList" style="margin-top: 15px;"></div>
+        <div id="uniPublishedList" style="margin-top: 10px;"></div>
     </section>
 
-    <!-- 3. GOVT ADMIN DASHBOARD (फक्त शासनासाठी) -->
+    <!-- 3. GOVT ADMIN DASHBOARD -->
     <section id="admin-dashboard" class="form-section hidden" style="border-top: 5px solid #d84315;">
-        <h2>🛡️ शासन व नोडल अधिकारी मास्टर डॅशबोर्ड (Govt Admin Panel)</h2>
-        <p style="font-size: 13px; color: #555;">संपूर्ण राज्याचा डेटा, समस्यांचे मॉनिटरींग आणि स्टेटस बदलण्याचे अधिकार.</p>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>🛡️ शासन मास्टर डॅशबोर्ड</h2>
+            <button onclick="exportAdminData()" style="background: #d84315; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">📊 संपूर्ण रिपोर्ट डाऊनलोड</button>
+        </div>
         
-        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-            <div style="background: #fbe9e7; padding: 10px; flex: 1; border-radius: 6px; text-align: center;">
+        <div style="display: flex; gap: 10px; margin: 15px 0;">
+            <div style="background: rgba(216, 67, 21, 0.1); padding: 10px; flex: 1; border-radius: 6px; text-align: center;">
                 <h4 style="margin:0; color:#d84315; font-size: 18px;" id="adminTotalProblems">0</h4>
                 <p style="margin:3px 0 0; font-size: 12px;">एकूण समस्या</p>
             </div>
-            <div style="background: #e8f5e9; padding: 10px; flex: 1; border-radius: 6px; text-align: center;">
+            <div style="background: rgba(46, 125, 50, 0.1); padding: 10px; flex: 1; border-radius: 6px; text-align: center;">
                 <h4 style="margin:0; color:#2e7d32; font-size: 18px;" id="adminResolvedCount">0</h4>
                 <p style="margin:3px 0 0; font-size: 12px;">सोडवलेल्या समस्या</p>
             </div>
         </div>
 
-        <h3 style="color: #d84315; font-size: 16px;">⚙️ सर्व समस्या नियंत्रण पॅनेल</h3>
-        <div id="adminManagementList" style="max-height: 250px; overflow-y: auto;"></div>
+        <h3 style="color: #d84315; font-size: 15px;">⚙️ समस्या नियंत्रण पॅनेल</h3>
+        <div id="adminManagementList" style="max-height: 200px; overflow-y: auto;"></div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 झारखंड सरकार - Secure Multi-Role Innovation Framework.</p>
-    </footer>
+    <!-- AI Chatbot Widget -->
+    <div id="chatbot-container">
+        <div id="chatbot-header" onclick="toggleChatbot()">🤖 मदतनीस AI चॅटबॉट</div>
+        <div id="chatbot-content" class="hidden">
+            <div id="chatbot-body">
+                <p><b>AI:</b> नमस्कार! मला पोर्टलबद्दल काहीही विचारू शकता (उदा. समस्या कशी टाकावी?).</p>
+            </div>
+            <div style="display: flex; border-top: 1px solid #ccc;">
+                <input type="text" id="chatInput" placeholder="इथे लिहा..." style="border:none; padding:8px; margin:0; flex:1;">
+                <button onclick="sendChatMessage()" style="background:#1b5e20; color:white; border:none; padding:8px; cursor:pointer;">पाठवा</button>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

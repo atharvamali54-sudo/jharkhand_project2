@@ -1,44 +1,42 @@
-let problems = JSON.parse(localStorage.getItem('jharkhand_secure_problems')) || [];
-let uniSolutions = JSON.parse(localStorage.getItem('jharkhand_secure_sols')) || [];
+let problems = JSON.parse(localStorage.getItem('jharkhand_adv_problems')) || [];
+let uniSolutions = JSON.parse(localStorage.getItem('jharkhand_adv_sols')) || [];
+let currentUser = JSON.parse(localStorage.getItem('jharkhand_adv_user')) || null;
 
-let currentUser = JSON.parse(localStorage.getItem('jharkhand_current_user')) || null;
-
-// पेज लोड झाल्यावर चेक करणे की युजर आधीच लॉगिन आहे का
 window.onload = function() {
     if (currentUser) {
         showDashboard(currentUser);
     }
 };
 
-// लॉगिन प्रक्रिया (Login Handler)
+// नोटिफिकेशन दाखवण्याचे फंक्शन
+function showNotification(message) {
+    const banner = document.getElementById('notificationBanner');
+    banner.innerText = message;
+    banner.style.display = 'block';
+    setTimeout(() => { banner.style.display = 'none'; }, 4000);
+}
+
+// लॉगिन फंक्शन
 function handleLogin() {
     const role = document.getElementById('loginRole').value;
     const username = document.getElementById('loginUsername').value.trim();
-
-    if (!username) {
-        alert('कृपया तुमचे नाव प्रविष्ट करा!');
-        return;
-    }
+    if (!username) { alert('नाव प्रविष्ट करा!'); return; }
 
     currentUser = { username, role };
-    localStorage.setItem('jharkhand_current_user', JSON.stringify(currentUser));
-
+    localStorage.setItem('jharkhand_adv_user', JSON.stringify(currentUser));
     showDashboard(currentUser);
+    showNotification(`यशोशी रित्या लॉगिन झाले: ${username}`);
 }
 
-// युजरच्या रोलनुसार डॅशबोर्ड दाखवणे (Privacy Guard)
 function showDashboard(user) {
     document.getElementById('authSection').classList.add('hidden');
     document.getElementById('mainHeader').classList.remove('hidden');
+    document.getElementById('welcomeUser.innerText` = ''; // clear
+    document.getElementById('userRoleDisplay').innerText = `रोल: ${user.role.toUpperCase()}`;
+    document.getElementById('welcomeUser').innerText = user.username;
 
-    document.getElementById('welcomeUser').innerText = `स्वागत आहे, ${user.username} (${user.role.toUpperCase()})`;
+    document.querySelectorAll('.form-section').forEach(el => el.classList.add('hidden'));
 
-    // सर्व डॅशबोर्ड लपवणे
-    document.getElementById('citizen-dashboard').classList.add('hidden');
-    document.getElementById('university-dashboard').classList.add('hidden');
-    document.getElementById('admin-dashboard').classList.add('hidden');
-
-    // संबंधित युजरचाच डॅशबोर्ड ओपन करणे
     if (user.role === 'citizen') {
         document.getElementById('citizen-dashboard').classList.remove('hidden');
         renderCitizenData(user.username);
@@ -51,142 +49,165 @@ function showDashboard(user) {
     }
 }
 
-// लॉग आउट (Logout)
 function logout() {
-    localStorage.removeItem('jharkhand_current_user');
-    currentUser = null;
-    document.getElementById('mainHeader').classList.add('hidden');
-    document.getElementById('authSection').classList.remove('hidden');
-    
-    // डॅशबोर्ड लपवणे
-    document.querySelectorAll('.form-section').forEach(el => el.classList.add('hidden'));
-    document.getElementById('loginUsername').value = '';
-    document.getElementById('loginPassword').value = '';
+    localStorage.removeItem('jharkhand_adv_user');
+    location.reload();
 }
 
-// 1. नागरिक डॅशबोर्ड डेटा (फक्त स्वतःच्या समस्या दिसतील)
+// नागरिक समस्या सबमिट करणे
 document.getElementById('problemForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const domain = document.getElementById('domain').value;
     const district = document.getElementById('district').value;
     const description = document.getElementById('description').value;
 
-    let assignedUni = "राँची युनिव्हर्सिटी (Ranchi University)";
-    if (domain === "Agriculture") assignedUni = "बिरसा कृषी विद्यापीठ (Birsa Agricultural Univ)";
-    if (domain === "Water") assignedUni = "बीआईटी सिंदरी, धनबाद (BIT Sindri)";
+    let assignedUni = domain === "Agriculture" ? "बिरसा कृषी विद्यापीठ" : "राँची युनिव्हर्सिटी / बीआईटी सिंदरी";
 
     const newProb = {
         id: Date.now(),
-        citizenName: currentUser.username, // कोण इन्व्हेस्ट करतंय त्याची प्रायव्हसी
+        citizenName: currentUser.username,
         domain, district, description,
         university: assignedUni,
         status: "नवीन (New)"
     };
 
     problems.push(newProb);
-    localStorage.setItem('jharkhand_secure_problems', JSON.stringify(problems));
-
+    localStorage.setItem('jharkhand_adv_problems', JSON.stringify(problems));
     renderCitizenData(currentUser.username);
-    alert('तुमची समस्या यशस्वीपणे सबमिट झाली!');
+    showNotification('समस्या यशस्वीपणे नोंदवली गेली व विद्यापीठाकडे वर्ग केली!');
     document.getElementById('problemForm').reset();
 });
 
 function renderCitizenData(username) {
     const list = document.getElementById('myCitizenProblems');
-    const myProbs = problems.filter(p => p.citizenName === username); // प्रायव्हसी फिल्टर
-
-    if (myProbs.length === 0) {
-        list.innerHTML = `<p style="color:#777; font-size:13px; text-align:center;">तुम्ही अजून कोणतीही समस्या नोंदवलेली नाही.</p>`;
-        return;
-    }
-
+    const myProbs = problems.filter(p => p.citizenName === username);
+    if (myProbs.length === 0) { list.innerHTML = `<p style="font-size:13px; color:#777;">कोणतीही समस्या नाही.</p>`; return; }
+    
     let html = "";
     myProbs.forEach((p, idx) => {
-        html += `<div style="background:white; padding:8px; margin-bottom:5px; border-radius:4px; font-size:13px;">
-            <b>${idx+1}. विभाग: ${p.domain} (${p.district})</b><br>
-            <span>स्थिती: <b style="color:#1b5e20;">${p.status}</b> | विद्यापीठ: ${p.university}</span>
+        html += `<div style="background:rgba(0,0,0,0.02); padding:6px; margin-bottom:5px; border-radius:4px; font-size:13px;">
+            <b>${idx+1}. विभाग: ${p.domain} (${p.district})</b><br>स्थिती: <span style="color:#2e7d32; font-weight:bold;">${p.status}</span>
         </div>`;
     });
     list.innerHTML = html;
 }
 
-// 2. विद्यापीठ डॅशबोर्ड डेटा
+// विद्यापीठ उपाय सबमिट
 document.getElementById('uniForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const solTitle = document.getElementById('solTitle').value;
     const solDesc = document.getElementById('solDesc').value;
 
-    const newSol = { uniName: currentUser.username, solTitle, solDesc };
-    uniSolutions.push(newSol);
-    localStorage.setItem('jharkhand_secure_sols', JSON.stringify(uniSolutions));
-
+    uniSolutions.push({ uniName: currentUser.username, solTitle, solDesc });
+    localStorage.setItem('jharkhand_adv_sols', JSON.stringify(uniSolutions));
     renderUniversityData();
-    alert('उपाय यशस्वीपणे प्रकाशित झाला!');
+    showNotification('उपाय यशस्वीरित्या प्रकाशित झाला!');
     document.getElementById('uniForm').reset();
 });
 
 function renderUniversityData() {
     const assignedList = document.getElementById('uniAssignedList');
-    if (problems.length === 0) {
-        assignedList.innerHTML = `<p style="color:#555; font-size:13px; text-align:center;">कोणतीही समस्या नाही.</p>`;
-    } else {
-        let html = "";
-        problems.forEach(p => {
-            html += `<div style="background:white; padding:6px; margin-bottom:4px; border-radius:4px; font-size:12px;">
-                📍 <b>${p.district} (${p.domain})</b>: ${p.description} [<b>${p.status}</b>]
-            </div>`;
-        });
-        assignedList.innerHTML = html;
-    }
-
+    assignedList.innerHTML = problems.length === 0 ? "कोणतीही समस्या नाही." : problems.map(p => `<div style="font-size:12px; margin-bottom:4px;">📍 <b>${p.district}</b> (${p.domain}): ${p.description}</div>`).join('');
+    
     const pubList = document.getElementById('uniPublishedList');
-    let pubHtml = "<h4 style='color:#1565c0; margin:10px 0 5px;'>तुम्ही प्रकाशित केलेले उपाय:</h4>";
     const mySols = uniSolutions.filter(s => s.uniName === currentUser.username);
-    if (mySols.length === 0) {
-        pubHtml += `<p style="color:#777; font-size:12px;">अद्याप कोणतेही उपाय प्रकाशित नाहीत.</p>`;
-    } else {
-        mySols.forEach(s => {
-            pubHtml += `<div style="background:#e3f2fd; padding:6px; margin-bottom:4px; border-radius:4px; font-size:12px;">
-                <em>${s.solTitle}</em> - ${s.solDesc}
-            </div>`;
-        });
-    }
-    pubList.innerHTML = pubHtml;
+    pubList.innerHTML = "<h4 style='font-size:14px; margin:5px 0;'>प्रकाशित उपाय:</h4>" + (mySols.length === 0 ? "<p style='font-size:12px; color:#777;'>काहीही नाही</p>" : mySols.map(s => `<div style="font-size:12px; background:rgba(21,101,192,0.1); padding:4px; border-radius:3px; margin-bottom:3px;"><b>${s.solTitle}</b>: ${s.solDesc}</div>`).join(''));
 }
 
-// 3. शासन/प्रशासन (Govt Admin) डॅशबोर्ड डेटा
+// शासन एडमिन डेटा
 function renderAdminData() {
     const adminList = document.getElementById('adminManagementList');
-    let resolvedCount = 0;
+    let resolved = 0;
+    if (problems.length === 0) { adminList.innerHTML = "डेटा उपलब्ध नाही."; return; }
 
-    if (problems.length === 0) {
-        adminList.innerHTML = `<p style="color:#777; font-size:13px; text-align:center;">तपासण्यासाठी कोणतीही समस्या नाही.</p>`;
-    } else {
-        let html = "";
-        problems.forEach(p => {
-            if (p.status.includes("Resolved")) resolvedCount++;
-            html += `<div style="background:#fff; padding:8px; margin-bottom:5px; border-radius:5px; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
-                <span><b>${p.domain}</b> (${p.district}) - [नागरिक: ${p.citizenName}] - <b>${p.status}</b></span>
-                <select onchange="updateStatus(${p.id}, this.value)" style="padding:3px;">
-                    <option value="">स्टेटस बदला</option>
-                    <option value="मान्यता प्राप्त (Approved)">Approved</option>
-                    <option value="संशोधनाधीन (Under Research)">Under Research</option>
-                    <option value="पूर्ण झाले (Resolved)">Resolved</option>
-                </select>
-            </div>`;
-        });
-        adminList.innerHTML = html;
-    }
-
+    let html = "";
+    problems.forEach(p => {
+        if(p.status.includes("Resolved")) resolved++;
+        html += `<div style="padding:6px; margin-bottom:5px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; font-size:13px;">
+            <span><b>${p.domain}</b> (${p.district}) - [<b>${p.status}</b>]</span>
+            <select onchange="updateStatus(${p.id}, this.value)" style="width:130px; padding:3px; margin:0;">
+                <option value="">स्टेटस बदला</option>
+                <option value="मान्यता प्राप्त">Approved</option>
+                <option value="संशोधनाधीन">Under Research</option>
+                <option value="पूर्ण झाले (Resolved)">Resolved</option>
+            </select>
+        </div>`;
+    });
+    adminList.innerHTML = html;
     document.getElementById('adminTotalProblems').innerText = problems.length;
-    document.getElementById('adminResolvedCount').innerText = resolvedCount;
+    document.getElementById('adminResolvedCount').innerText = resolved;
 }
 
 function updateStatus(id, newStatus) {
     let p = problems.find(item => item.id === id);
-    if (p) {
+    if(p && newStatus) {
         p.status = newStatus;
-        localStorage.setItem('jharkhand_secure_problems', JSON.stringify(problems));
+        localStorage.setItem('jharkhand_adv_problems', JSON.stringify(problems));
         renderAdminData();
+        showNotification('समस्येचे स्टेटस अपडेट केले!');
     }
+}
+
+// १. डेटा एक्सपोर्ट फिचर (CSV Format)
+function exportUniversityData() {
+    let csv = "University,Solution Title,Description\n";
+    uniSolutions.forEach(s => { csv += `"${s.uniName}","${s.solTitle}","${s.solDesc}"\n`; });
+    downloadCSV(csv, "university_solutions.csv");
+}
+
+function exportAdminData() {
+    let csv = "ID,Citizen,Domain,District,University,Status\n";
+    problems.forEach(p => { csv += `${p.id},"${p.citizenName}","${p.domain}","${p.district}","${p.university}","${p.status}"\n`; });
+    downloadCSV(csv, "government_problems_report.csv");
+}
+
+function downloadCSV(csv, filename) {
+    let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    let link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    link.click();
+    showNotification('डेटा यशस्वीरित्या डाऊनलोड झाला!');
+}
+
+// २. डार्क मोड टॉगल
+function toggleDarkMode() {
+    const body = document.body;
+    if (body.getAttribute('data-theme') === 'light') {
+        body.setAttribute('data-theme', 'dark');
+    } else {
+        body.setAttribute('data-theme', 'light');
+    }
+}
+
+// ३. AI चॅटबॉट लॉजिक
+function toggleChatbot() {
+    const content = document.getElementById('chatbot-content');
+    content.classList.toggle('hidden');
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if(!text) return;
+
+    const body = document.getElementById('chatbot-body');
+    body.innerHTML += `<p style="margin:5px 0;"><b>तुम्ही:</b> ${text}</p>`;
+
+    let reply = "मला समजले नाही. कृपया 'समस्या कशी टाकावी' किंवा 'स्टेटस' असे विचारू शकता.";
+    const lower = text.toLowerCase();
+    if(lower.includes('समस्या') || lower.includes('problem')) {
+        reply = "नागरिक डॅशबोर्डवर जाऊन विभाग, जिल्हा आणि वर्णन भरून 'समस्या सबमिट करा' दाबावी.";
+    } else if(lower.includes('status') || lower.includes('स्थिती')) {
+        reply = "तुम्ही तुमच्या डॅशबोर्डवरच नोंदवलेल्या समस्यांचे लाईव्ह स्टेटस पाहू शकता.";
+    } else if(lower.includes('hello') || lower.includes('नमस्कार')) {
+        reply = "नमस्कार! झारखंड नाविन्यता पोर्टलवर आपले स्वागत आहे.";
+    }
+
+    setTimeout(() => {
+        body.innerHTML += `<p style="margin:5px 0; color:#1b5e20;"><b>AI:</b> ${reply}</p>`;
+        body.scrollTop = body.scrollHeight;
+    }, 500);
+
+    input.value = '';
 }
