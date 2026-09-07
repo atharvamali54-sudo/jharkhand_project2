@@ -18,10 +18,25 @@ function showNotification(message) {
 function handleLogin() {
     const role = document.getElementById('loginRole').value;
     const username = document.getElementById('loginUsername').value.trim();
-    if (!username) { alert('Please enter your username!'); return; }
+    const password = document.getElementById('loginPassword').value.trim();
+
+    if (!username || !password) {
+        alert('Please enter both username and password!');
+        return;
+    }
+
+    // Basic mock authentication check (Password must be at least 4 characters)
+    if (password.length < 4) {
+        alert('Password must be at least 4 characters long!');
+        return;
+    }
 
     currentUser = { username, role };
     localStorage.setItem('jharkhand_adv_user', JSON.stringify(currentUser));
+    
+    // Clear password field for security
+    document.getElementById('loginPassword').value = '';
+    
     showDashboard(currentUser);
     showNotification(`Successfully logged in as: ${username}`);
 }
@@ -233,4 +248,4 @@ function sendChatMessage() {
     }, 500);
 
     input.value = '';
-}
+                }
