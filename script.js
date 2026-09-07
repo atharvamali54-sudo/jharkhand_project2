@@ -1,6 +1,9 @@
 let problems = JSON.parse(localStorage.getItem('jharkhand_adv_problems')) || [];
 let uniSolutions = JSON.parse(localStorage.getItem('jharkhand_adv_sols')) || [];
+let registeredUsers = JSON.parse(localStorage.getItem('jharkhand_registered_users')) || [];
 let currentUser = JSON.parse(localStorage.getItem('jharkhand_adv_user')) || null;
+
+let isSignUpMode = false;
 
 window.onload = function() {
     if (currentUser) {
@@ -15,7 +18,24 @@ function showNotification(message) {
     setTimeout(() => { banner.style.display = 'none'; }, 4000);
 }
 
-function handleLogin() {
+function switchAuthMode() {
+    isSignUpMode = !isSignUpMode;
+    const title = document.getElementById('authTitle');
+    const btn = document.getElementById('authBtn');
+    const toggleLink = document.getElementById('toggleAuthMode');
+
+    if (isSignUpMode) {
+        title.innerText = "📝 Create New Account (Sign Up)";
+        btn.innerText = "Sign Up";
+        toggleLink.innerText = "Already have an account? Login";
+    } else {
+        title.innerText = "🔐 Secure Login";
+        btn.innerText = "Login";
+        toggleLink.innerText = "Don't have an account? Sign Up";
+    }
+}
+
+function handleAuth() {
     const role = document.getElementById('loginRole').value;
     const username = document.getElementById('loginUsername').value.trim();
     const password = document.getElementById('loginPassword').value.trim();
@@ -25,20 +45,42 @@ function handleLogin() {
         return;
     }
 
-    // Basic mock authentication check (Password must be at least 4 characters)
     if (password.length < 4) {
         alert('Password must be at least 4 characters long!');
         return;
     }
 
-    currentUser = { username, role };
-    localStorage.setItem('jharkhand_adv_user', JSON.stringify(currentUser));
-    
-    // Clear password field for security
-    document.getElementById('loginPassword').value = '';
-    
-    showDashboard(currentUser);
-    showNotification(`Successfully logged in as: ${username}`);
+    if (isSignUpMode) {
+        // Sign Up Logic
+        const existingUser = registeredUsers.find(u => u.username === username && u.role === role);
+        if (existingUser) {
+            alert('User already exists with this username and role! Please login.');
+            return;
+        }
+
+        registeredUsers.push({ username, password, role });
+        localStorage.setItem('jharkhand_registered_users', JSON.stringify(registeredUsers));
+        
+        showNotification('Account created successfully! Please login now.');
+        switchAuthMode();
+        document.getElementById('loginPassword').value = '';
+    } else {
+        // Login Logic
+        const validUser = registeredUsers.find(u => u.username === username && u.password === password && u.role === role);
+        
+        // Default admin or test accounts bypass if not registered yet
+        if (!validUser && !(role === 'admin' && username === 'admin' && password === 'admin')) {
+            alert('Invalid credentials or role! Please check or Sign Up first.');
+            return;
+        }
+
+        currentUser = { username, role };
+        localStorage.setItem('jharkhand_adv_user', JSON.stringify(currentUser));
+        document.getElementById('loginPassword').value = '';
+        
+        showDashboard(currentUser);
+        showNotification(`Successfully logged in as: ${username}`);
+    }
 }
 
 function showDashboard(user) {
@@ -142,7 +184,7 @@ function renderUniversityData() {
     } else {
         let html = "";
         problems.forEach(p => {
-            let imgHtml = p.image ? `<br><img src="${p.image}" style="max-width:80px; max-height:60px; margin-top:4px; border-radius:3px;">` : "";
+            let imgHtml = p.image ? `<br><img src="${p.image}" style="max-width:80px; max-height:60px; margin-top:4px; border-radius:3px;" >` : "";
             html += `<div style="font-size:12px; margin-bottom:6px; background:rgba(0,0,0,0.02); padding:6px; border-radius:4px;">
                 📍 <b>${p.district}</b> (${p.domain}) [Citizen: ${p.citizenName}]: ${p.description} ${imgHtml}
             </div>`;
@@ -248,4 +290,4 @@ function sendChatMessage() {
     }, 500);
 
     input.value = '';
-                }
+                                                                                                     }
